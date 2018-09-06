@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    登录页面
+{% endblock %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-md-8">
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <img src="{% static 'blog/img/login1.jpg' %}" alt="图片加载中...">
+                            <div class="carousel-caption">
+                                ...
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="{% static 'blog/img/login2.jpg' %}" alt="图片加载中...">
+                            <div class="carousel-caption">
+                                ...
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="{% static 'blog/img/login-3.jpg' %}" alt="图片加载中...">
+                            <div class="carousel-caption">
+                                ...
+                            </div>
+                        </div>
+                        ...
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-4  has-success">
+                <div style="height: 30px"></div>
+                <form class="form-horizontal" action="{% url 'users:login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name" style="line-height: 40px" class="col-sm-2"></label>
+                        <div class="form-group col-sm-10 control-label "  style="text-align: center"><h3><b>用户登录</b></h3></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" style="line-height: 20px" class="col-sm-2"></label>
+                        <div class="form-group col-sm-10" style="text-align: center;color: red">{{ error }}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" style="line-height: 40px" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="username" style="height: 40px" class="form-control" id="name"
+                                   placeholder="请输入用户名或邮箱">
+                        </div>
+                    </div>
+                        <div style="height: 20px;"></div>
+                    <div class="form-group">
+                        <label for="inputPassword3" style="height: 40px" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                        <input type="password" name="password" style="height: 40px" class="form-control"
+                               id="inputPassword3" placeholder="请输入密码">
+                        </div>
+                    </div>
+                         <div style="height: 5px;"></div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="remember" {{ checked }}> 记住我
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="checkbox">
+                                    <label>
+                                         <a href="{% url 'user:to_login' %}">
+                                                <img src="{% static  'Connect_logo_1.png' %}">QQ登录</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height: 5px;"></div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">立即登录
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="col-sm-7" style="text-align: left"><span>没有账号？<a
+                                    href="{% url 'users:register' %}">立即注册</a></span></div>
+                        <div class="col-sm-5" style="text-align: right"><span><a href="{% url 'password_reset' %}">忘记密码？</a></span></div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

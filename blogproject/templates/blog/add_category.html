@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    增加文章分类
+{% endblock %}
+{% block main %}
+    <div class="flex-center">
+        <div class="container">
+            <div style="margin-top: 3.6rem">
+
+                <p class="text-muted"><h4>增加分类</h4>
+                <form class="form" action="{% url 'blog:addCategory' %}" method="post">
+                    {% csrf_token %}
+                    <div>
+                        <label for="add_category"></label>
+                        <input type="text" id="add_category" class="form-control" style="width: 15rem"
+                               name="category_name" placeholder="请输入需要添加的文章分类">
+                    </div>
+                    <div style="margin-top: 25px">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+   {% endblock %}

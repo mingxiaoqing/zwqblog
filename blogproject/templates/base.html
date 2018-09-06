@@ -1,0 +1,200 @@
+﻿{% load static %}
+{% load blog_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}泊客驿站{% endblock %}</title>
+    <!-- meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" >
+    <!-- css -->
+    {% block link %}
+
+        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'blog/css/pace.css' %}">
+        <link rel="stylesheet" href="{% static 'blog/css/custom.css' %}">
+        <link rel="stylesheet" href="{% static 'blog/css/github.css' %}">
+        <link rel="stylesheet" href="{% static 'blog/css/code.css' %}">
+         <style>
+          span.highlighted {
+                    color: red;
+                    }
+         </style>
+        <!-- js -->
+        <script src="{% static 'blog/js/jquery-2.1.3.min.js' %}"></script>
+        <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'blog/js/pace.min.js' %}"></script>
+        <script src="{% static 'blog/js/modernizr.custom.js' %}"></script>
+    {% endblock %}
+</head>
+<body>
+{% block nav %}
+    <nav class="navbar navbar-inverse" role="navigation" style="height: 30px">
+        <div class="container">
+{#            <div class="row">#}
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                     </button>
+                     <a class="navbar-brand hidden-sm hidden-md hidden-lg" href="{% url 'index' %}"><p style="font-size: 16px;text-align: center"><b>返回首页</b>
+                            </p></a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="navbar-collapse collapse" role="navigation" style="position:relative; z-index:9999 ">
+                        <ul class="nav navbar-nav">
+                         <li><a href="{% url 'index' %}"><p style="font-size: 16px;text-align: center"><b>首页</b>
+                            </p></a></li>
+                            <li><a href="{% url 'blog:list' %}"><p style="font-size: 16px;text-align: center"><b>博客</b>
+                            </p></a></li>
+                            {% if user.is_authenticated %}
+                                <li><a href="{% url 'blog:authorArticle' request.user.id %}" target="_blank"><p
+                                        style="font-size: 16px;text-align: center">我的文章</p></a></li>
+                                <li><a href="{% url 'blog:publish' %}" target="_blank"><p style="font-size: 16px;text-align: center">
+                                    发布文章</p></a></li>
+                                <li class="hidden-sm hidden-xs"  style="visibility:hidden"><a href=""><p style="font-size: 16px;text-align: center">
+                                    技术论坛</p></a></li>
+                            {% else %}
+                                <li class="hidden-sm hidden-xs" style="visibility:hidden"><a href=""><p style="font-size: 16px;text-align: center">
+                                更新中</p></a></li>
+                                <li class="hidden-sm hidden-xs"><a href="{% url 'users:login' %}"><p
+                                    style="font-size: 16px;text-align: center;color:#00ddee">登录后即可享受更多精彩内容</p></a>
+                            {% endif %}
+                            <li class="hidden-sm hidden-xs" style="visibility:hidden"><a href=""><p style="font-size: 16px;text-align: center">
+                                更新中。。</p></a></li>
+
+                        </ul>
+                        <form class="navbar-form  navbar-left hidden-sm hidden-xs" method="get" action="{% url 'haystack_search' %}">
+                            {% csrf_token %}
+                            <div class="form-group" style="line-height: normal">
+                                <input type="search" name="q" class="form-control" placeholder="搜索">
+                            </div>
+                            <button type="submit" class="btn btn-primary">搜索</button>
+                        </form>
+                        {% if user.is_authenticated %}
+                            <!-- 登录成功 -->
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="hidden-xs hidden-sm hidden-md"><a href=""><p style="font-size: 16px;text-align: center">{{ request.user }},您好！</p>
+                                </a></li>
+                                <li class="hidden-xs"><a href="{% url 'user:editinfo' %}"><p style="font-size: 16px;text-align: center"><img
+                                        width="20" height="20" src="
+
+                                        {% if request.user.image %}{{ request.user.image.url }}{% else %}{% static "blog/img/me.jpg" %}{% endif %}"/>
+                                </p></a></li>
+                                <li class="dropdown">
+                                    <a href="#" data-toggle="dropdown" role="button" ><p
+                                            style="font-size: 16px;text-align: center">个人中心</p></a>
+                                    <ul class="dropdown-menu" style="text-align: center">
+                                        <li><a href="{% url 'user:editinfo' %}" target="_blank">个人资料</a></li>
+                                        <li><a href="{% url 'blog:authorArticle' request.user.id %}" target="_blank">个人文章</a></li>
+                                        <li><a href="{% url 'password_change' %}" target="_blank">修改密码{{ user.author_articles }}</a>
+                                        </li>
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'users:logout' %}"><p style="font-size: 16px;text-align: center">
+                                    	退出</p></a></li>
+                                    </ul>
+                                </li>
+                                
+                            </ul>
+                        {% else %}
+                            <ul class="nav navbar-nav navbar-right">
+                            <li class="hidden-xs hidden-sm" style="visibility:hidden"><a href=""><p>更新中</p></a></li>
+                            <li><a href="{% url 'users:login' %}"><p style="font-size: 16px;text-align: center">登录</p>
+                            </a></li>
+                            <li><a href="{% url 'users:register' %}"><p style="font-size: 16px;text-align: center">
+                                注册</p></a></li>
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+{#        </div>#}
+    </nav>
+{% endblock %}
+{% block content %}
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                <aside class="col-md-3">
+                    {% block toc %}
+                         {% endblock toc %}
+                    <div class="widget widget-recent-posts hidden-xs hidden-sm">
+                        <h2 class="widget-title"><span class="text-primary">✎ 最新文章</span></h2>
+                        {% get_recent_articles as recent_article_list %}
+                        <hr>
+                        <ul style="list-style: none;">
+                            {% for article in recent_article_list %}
+                                <li style="list-style: none;">
+                                    <a href="{{ article.get_absolute_url }}"><p class="text-success">{{ article.title|slice:'12' }}...</p>
+                                    </a>
+                                </li>
+                            {% empty %}
+                                <p class="bg-info">暂无文章！</p>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="widget widget-archives hidden-xs hidden-sm">
+                        <h3 class="widget-title"><span class="text-primary">✎ 文章归档</span></h3>
+                        <hr>
+                        {% archives as date_list %}
+                        <ul>
+                            {% for date in date_list %}
+                                <li>
+                                    <a href="{% url 'blog:archives' date.year date.month %}"><p
+                                            class="text-success">{{ date.year }}
+                                        年 {{ date.month }} 月</p></a>
+                                </li>
+                            {% empty %}
+                                暂无归档！
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="widget widget-category">
+                        <h3 class="widget-title"><span class="text-primary">✎ 文章分类</span></h3>
+                        <hr>
+                        {% get_categories as category_list %}
+                        <ul>
+                            {% for category in category_list %}
+                                <li>
+                                    <a href="{% url 'blog:category' category.pk %}"><p
+                                            class="text-success">{{ category.name }} <span
+                                            class="post-count">({{ category.num_articles }})</span></p></a>
+                                </li>
+                            {% empty %}
+                                暂无分类！
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </aside>
+                <main class="col-md-9">
+                    {% block main %}
+                    {% endblock main %}
+                </main>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<footer id="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="text-align: center">
+                <p class="copyright">© 2017-2018 Company ZhangWenqing<a href="http://www.reliapp.cn/"
+                                                                target="_blank" title=""></a>
+                    <a href="http://reliapp.cn/" title="网页" target="_blank">
+                        个人博客</a>&nbsp&nbsp&nbsp邮箱：zhangwq053@hotmail.com
+                </p>
+                <br>
+                <img style="width: 20px; height: 20px;" src="{% static 'blog/img/ghs.png' %}" alt="备案标识"/>
+                <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow noopener">*** </a>
+                <br>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="{% static 'blog/js/script.js' %}"></script>
+</body>
+</html>

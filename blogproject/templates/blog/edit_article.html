@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+{% block title %}
+    文章编辑
+{% endblock %}
+<meta charset="UTF-8">
+{% block main %}
+    <div class="right">
+        <div class="personal_des ">
+            <div class="form-horizontal" id="jsEditUserForm" autocomplete="off">
+                <div class="right" style="list-style: none;margin-top: 50px">
+                    <form class="perinform" id="jsEditUserForm" autocomplete="off"
+                          action="{% url 'blog:editArticle' article.id %}" method="post">
+                        {% csrf_token %}
+                        <h3 style="text-align: center" class="text-primary"><strong>文章修改</strong></h3>
+                        <ul class="right" style="list-style: None">
+                            <li><p style="height: 30px;line-height: 50px">文章标题：</p>
+                                <input type="text" name="title" id="title" class="form-control"
+                                       value="{{ article.title }}">
+                                <i class="error-tips"></i>
+                            </li>
+                            <li><p style="height: 30px;line-height: 50px;min-height: max-content">文章内容：</p>
+                                <textarea class="form-control" name="body" rows="15">{{ article.body }}</textarea>
+                            </li>
+                             {% get_categories as category_list %}
+
+                            <li><p style="height: 20px;line-height: 30px">分类：</p>
+
+                                <select name="category" class="form-control">
+                                    <option value="{{ article.category.id }}">{{ article.category }}</option>
+                                    {% for category in category_list %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                      {% empty %}
+                                暂无分类！
+                            {% endfor %}
+                                </select>
+
+                            </li>
+
+                            <div style="height: 15px"></div>
+                            <li class="button heibtn">
+                                <button type="submit" class="btn btn-primary">保存</button>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

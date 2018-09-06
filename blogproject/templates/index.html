@@ -1,0 +1,301 @@
+{% load static %}
+{% load blog_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>泊客驿站</title>
+    <!-- load stylesheets -->
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" >
+
+
+    <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'index/css/font-awesome.min.css' %}">            <!-- Font awesome -->
+    <link rel="stylesheet" href="{% static 'index/css/hero-slider-style.css' %}">
+    <link rel="stylesheet" href="{% static 'index/css/templatemo-style.css' %}">
+    <link rel="stylesheet" href="{% static 'index/css/magnific-popup.css' %}">
+
+     <script src="{% static 'blog/js/jquery-2.1.3.min.js' %}"></script>
+    <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'index/js/tether.min.js' %}"></script>
+    <script src="{% static 'index/js/hero-slider-main.js' %}"></script>
+    <script src="{% static 'index/js/jquery.magnific-popup.min.js' %}"></script>
+
+
+</head>
+
+<body>
+
+<div class="cd-hero">
+
+    <div class="cd-slider-nav">
+        <nav class="navbar">
+            <div class="" id="tmNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item active selected">
+                        <a class="nav-link" href="#" data-no="1">博客首页<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-no="2">精选博文</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-no="3">美图分享</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-no="4">找我留言</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <ul class="cd-hero-slider">  <!-- autoplay -->
+        <li class="selected">
+            <div class="cd-full-width">
+                <div class="container-fluid js-tm-page-content tm-page-1" data-page-no="1">
+
+                    <div class="row">
+
+                        <div class="col-xs-12">
+                            <a href="{% url 'blog:list' %}"><i class="fa fa-4x fa-camera tm-icon"></i></a>
+                            <h6 class="tm-site-name"><a href="{% url 'blog:list' %}">进入 <i class="fa fa-hand-pointer-o"
+                                                                                           style="font-size:48px"></i>
+                                博客</a></h6>
+                            <br>
+                            <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-textbox-1-col">
+                                <p class="tm-text">Hello，朋友们，这是我的博客！希望在这个平台能够和更多的朋友一起
+                                    <a rel="nofollow" href="{% url 'blog:list' %}" target="_blank">交流与分享</a>，本站可以来发表一些关于web网站开发、网络编程、数据分析、人工智能等互联网相关的行业知识。您可以浏览本站的
+                                    <a rel="nofollow" href="{% url 'blog:list' %}" target="_blank">所有文章</a>，
+                                    登录本站后您还可以<a rel="nofollow" href=" {% url 'blog:publish' %}"
+                                                target="_blank">发表属于自己的文章</a>，同时也可以评论别人发布的文章，有问题也可以给博主
+                                    <a href="#" target="_blank">留言</a>，博主将在第一时间解答您的问题,再次欢迎和感谢您的到来!
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div> <!-- .cd-full-width -->
+        </li>
+
+        <li>
+            <div class="cd-full-width">
+
+                <div class="container-fluid js-tm-page-content" data-page-no="2">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="tm-2-col-container">
+                                {% get_reading as reading_list %}
+                                {% for readmax in reading_list %}
+                                    <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox">
+                                        <h2 class="tm-text-title"><a
+                                                href="{% url 'blog:detail' readmax.id %}">{{ readmax.title| slice:"10"|escape }}...</a>
+                                        </h2>
+                                        <p class="tm-text" style="text-align:left">{{ readmax.body| slice:"300"|cut:'#' }}...</p>
+                                    </div>
+                                {% empty %}
+                                    <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox">
+                                        <p class="tm-text">暂无文章！</p>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- .cd-full-width -->
+
+        </li>
+
+        <!-- Page 3 -->
+        <li>
+
+            <div class="cd-full-width">
+
+                <div class="container-fluid js-tm-page-content" data-page-no="3">
+
+                    <div class="row tm-img-gallery">
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                            <a href="{% static 'index/img/tm-img-01-tn.jpg' %}">
+                                <img src="{% static 'index/img/tm-img-01.jpg' %}" alt="Image"
+                                     class="img-fluid tm-img">
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                            <a href="{% static 'index/img/tm-img-02-tn.jpg' %}">
+                                <img src="{% static 'index/img/tm-img-02.jpg' %}" alt="Image"
+                                     class="img-fluid tm-img">
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                            <a href="{% static 'index/img/tm-img-03-tn.jpg' %}">
+                                <img src="{% static 'index/img/tm-img-03.jpg' %}" alt="Image"
+                                     class="img-fluid tm-img">
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                            <a href="{% static 'index/img/tm-img-04-tn.jpg' %}">
+                                <img src="{% static 'index/img/tm-img-04.jpg' %}" alt="Image"
+                                     class="img-fluid tm-img">
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                            <a href="{% static 'index/img/tm-img-05-tn.jpg' %}">
+                                <img src="{% static 'index/img/tm-img-05.jpg' %}" alt="Image"
+                                     class="img-fluid tm-img">
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                            <a href="{% static 'index/img/tm-img-06-tn.jpg' %}">
+                                <img src="{% static 'index/img/tm-img-06.jpg' %}" alt="Image"
+                                     class="img-fluid tm-img">
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </li>
+
+        <li>
+            <div class="cd-full-width">
+
+                <div class="container-fluid js-tm-page-content" data-page-no="4">
+
+                    <div class="tm-contact-page">
+
+                        <div class="row">
+
+                            <div class="col-xs-12">
+
+                                <h2 class="tm-section-title">联系我</h2>
+                                <p class="tm-text tm-font-w-400 m-b-3">如果您对本站任何的问题或者建议，请给我留言，谢谢。</p>
+                                <p><a>{{ msg }}</a></p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- contact form -->
+                        <div class="row">
+                            <form action="{% url 'comments:contact_msg' %}" method="POST" class="tm-contact-form"
+                                  id="msg_id">
+                                {% csrf_token %}
+
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <input type="text" id="contact_name" name="contact_name"
+                                               class="form-control" placeholder="您的姓名" required/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" id="contact_email" name="contact_email"
+                                               class="form-control" placeholder="您的邮箱" required/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="contact_subject" name="contact_subject"
+                                               class="form-control" placeholder="问题简述" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                                <textarea id="contact_message" name="contact_message"
+                                                          class="form-control" rows="4" placeholder="您的意见或建议"
+                                                          required></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <button type="submit" id="sub_id" class="pull-xs-right tm-submit-btn">提交
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div> <!-- .cd-full-width -->
+        </li>
+    </ul> <!-- .cd-hero-slider -->
+
+</div> <!-- .cd-hero -->
+
+
+<!-- Preloader, https://ihatetomatoes.net/create-custom-preloading-screen/ -->
+<div id="loader-wrapper">
+
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+
+</div>
+<script>
+
+    function adjustHeightOfPage(pageNo) {
+
+        // Get the page height
+        var totalPageHeight = 15 + $('.cd-slider-nav').height()
+            + $(".cd-hero-slider li:nth-of-type(" + pageNo + ") .js-tm-page-content").height() + 160
+            + $('.tm-footer').height();
+
+        // Adjust layout based on page height and window height
+        if (totalPageHeight > $(window).height()) {
+            $('.cd-hero-slider').addClass('small-screen');
+            $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", totalPageHeight + "px");
+        }
+        else {
+            $('.cd-hero-slider').removeClass('small-screen');
+            $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", "100%");
+        }
+
+    }
+
+    /*
+        Everything is loaded including images.
+    */
+    $(window).load(function () {
+
+        adjustHeightOfPage(1); // Adjust page height
+
+        /* Gallery pop up
+        -----------------------------------------*/
+        $('.tm-img-gallery').magnificPopup({
+            delegate: 'a', // child items selector, by clicking on it popup will open
+            type: 'image',
+            gallery: {enabled: true}
+        });
+
+        /* Collapse menu after click
+        -----------------------------------------*/
+        $('#tmNavbar a').click(function () {
+            {#$('#tmNavbar').collapse('hide');#}
+
+            adjustHeightOfPage($(this).data("no")); // Adjust page height
+        });
+
+        /* Browser resized
+        -----------------------------------------*/
+        $(window).resize(function () {
+            var currentPageNo = $(".cd-hero-slider li.selected .js-tm-page-content").data("page-no");
+            adjustHeightOfPage(currentPageNo);
+        });
+
+        // Remove preloader
+        // https://ihatetomatoes.net/create-custom-preloading-screen/
+        $('body').addClass('loaded');
+
+    });
+
+</script>
+</body>
+</html>

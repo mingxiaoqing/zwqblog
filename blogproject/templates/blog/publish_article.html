@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    发布文章
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2 class="widget-title" style="text-align: center"><span class="bg-primary">发布文章</span></h2>
+        <h2>{{ msg }}</h2>
+        <form action="{% url 'blog:publish' %}" method="POST" class="comment-form form-horizontal">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_table }}
+            <a rel="button" class="btn btn-default" onclick="upload_image_layer()">增加分类</a>
+            <div style="height: 10px"></div>
+            <button type="submit" class="btn btn-primary">发布文章</button>
+        </form>
+    </div>
+{% endblock %}

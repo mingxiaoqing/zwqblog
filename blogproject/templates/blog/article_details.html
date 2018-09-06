@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}
+    文章详情页
+{% endblock %}
+{% block main %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <article class="post post-{{ article.pk }}">
+        <header class="entry-header">
+            <h1 class="entry-title"><span class="text-primary">{{ article.title }}</span></h1>
+            <div class="entry-meta">
+                <span class="post-category"><a href="#">{{ article.category.name }}</a></span>
+                <span class="post-date"><a href="#"><time class="entry-date"
+                                                          datetime="{{ article.created_time }}">{{ article.created_time }}</time></a></span>
+                <span class="post-author"><a href="">{{ article.author }}</a></span>
+                <span class="comments-link"><a href="#">{{ article.comment_set.count }}评论</a></span>
+                <span class="views-count"><a href="#">{{ article.reading }}阅读</a></span>
+            </div>
+        </header>
+        <div class="entry-content clearfix">
+            {{ article.body|safe }}
+        </div>
+    <hr>
+    </article>
+    {% if user.is_authenticated %}
+        {% if article.author == request.user %}
+            <div class="row">
+                <div class="col-sm-offset-10">
+
+                    <ul style="list-style: None" class="list-inline">
+                        <li><a href="{% url 'blog:editArticle' article.pk %}"><p style="text-align: left">编辑</p></a>
+                        </li>
+                        <li><a href="{% url 'blog:delArticle' article.pk %}"><p style="text-align: left">删除</p></a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+
+        <section class="comment-area" id="comment-area">
+        <hr>
+        <h4>发表评论:</h4>
+{#        <hr>#}
+        <form action="{% url 'comments:article_comment' article.pk %}" method="post" class="comment-form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+{#                    <label for="{{ form.text.id_for_label }}">评论：</label>#}
+                    {{ form.text }}
+{#                    {{ form.text.errors }}#}
+                    <button type="submit" class="comment-btn">发表</button>
+                </div>
+            </div>    <!-- row -->
+        </form>
+        <div class="comment-list-panel">
+            <h3>评论列表，共 <span>{{ article.comment_set.count }}</span> 条评论</h3>
+            <ul class="comment-list list-unstyled">
+                {% for comment in comment_list %}
+                    <li class="comment-item">
+                        <span class="nickname">{{ comment.name }}</span>
+                        <time class="submit-date"
+                              datetime="{{ comment.created_time }}">{{ comment.created_time }}</time>
+                        <div class="text">
+                            {{ comment.text }}
+                        </div>
+                    </li>
+                {% empty %}
+                    暂无评论
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <hr>
+        <h4><a href="{% url 'users:login' %}"><p class="text-primary">登陆后方可发表评论</p></a></h4>
+    {% endif %}
+</section>
+{% endblock main %}

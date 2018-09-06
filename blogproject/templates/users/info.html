@@ -1,0 +1,97 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
+{% block title %}
+    个人信息
+{% endblock %}
+<meta charset="UTF-8">
+{% block toc %}
+     <div class="widget widget-recent-posts hidden-xs hidden-sm">
+                        <h3 class="widget-title"><span class="text-primary">✎ 我的文章</span></h3>
+                        <ul style="list-style: none;">
+                            {% for myArtical in user.article_set.all|slice:":5" %}
+                                <li style="list-style: none;">
+                                    <a href="{{ myArtical.get_absolute_url }}"><p class="text-success">{{ myArtical.title }}...</p>
+                                    </a>
+                                </li>
+                                 {% empty %}
+                                暂无文章！
+                            {% endfor %}
+                        </ul>
+                    </div>
+{% endblock %}
+{% block main %}
+    <div class="right">
+        <div class="personal_des ">
+            <div class="head" style="border:1px solid #eaeaea;">
+                <h3 style="text-align: center;line-height: 30px">个人信息 </h3>
+            </div>
+            <div class="form-horizontal" id="jsEditUserForm">
+                <div class="right" style="list-style: none">
+
+                    <form class="perinform" id="jsEditUserForm" enctype="multipart/form-data" autocomplete="off"
+                          action="{% url 'user:editinfo' %}" method="post">
+                        {% csrf_token %}
+                        <label class="changearea" for="up_img">
+                            <span id="avatardiv" class="pic">
+                                <img width="100" height="100" class="js-img-show" id="avatarShow" name="image"
+                                     src="{% if user.image %}{{ user.image.url }}
+                                           {% elif request.user.image %}{{ request.user.image.url }}
+                                        {% else %}{% static "blog/img/me.jpg" %}{% endif %}">
+                            </span>
+                            <span class="fl upload-inp-box" style="margin-left:70px;">
+                                <span class="button btn-green btn-w100" id="img">{{ msg }}</span>
+                                <input type="file" name="img" id="img" class="js-img-up"/>
+                            </span>
+                        </label>
+                        <ul class="right" style="list-style: None">
+                            <li><p style="height: 20px;line-height: 30px">姓   名：</p>
+                                    <input type="text" name="name" id="name"  class="form-control"
+                                           value="{{ user.name }}" maxlength="20">
+                            </li>
+                        <br>
+                            <li>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：
+                                <label><input type="radio" name="gender" value="male"
+                                              {% if user.gender == 'male' %}checked="checked"{% endif %}>男</label>
+                                <label><input type="radio" name="gender" value="female"
+                                              {% if user.gender == 'female' %}checked="checked"{% endif %}>女</label>
+                            </li>
+
+                            <li><p style="height: 20px;line-height: 30px">昵&nbsp;&nbsp;称：</p>
+                                <input type="text" name="nick_name" id="nick_name"  class="form-control"
+                                       value="{{ user.nick_name }}" maxlength="20">
+                            </li>
+                            <li><p style="height: 20px;line-height: 30px">生&nbsp;&nbsp;日：</p>
+                                <input type="date" id="birday" name="birday" class="form-control"
+                                       value="{% if user.birday %}{{ user.birday.isoformat }}{% else %}2000-01-01{% endif %}"/>
+                            </li>
+
+                            <li class="p_infor_city"><p style="height: 20px;line-height: 30px">地&nbsp;&nbsp;址：</p>
+                                <input type="text" name="address" id="address" class="form-control"
+                                       placeholder="请输入你的地址"
+                                       value="{{ user.address }}" maxlength="50">
+
+                            </li>
+                            <li><p style="height: 20px;line-height: 30px">手机号：</p>
+                                <input type="tel" name="mobile" id="mobile" class="form-control" placeholder="请输入你的手机号码"
+                                       value="{{ user.mobile }}">
+                            </li>
+                            <li><p style="height: 20px;line-height: 30px">邮&nbsp;&nbsp;箱：</p>
+                                <input class="borderno form-control" type="email" name="email" readonly="readonly"
+                                       value="{{ user.email }}"/>
+                            </li>
+                            <li><p style="height: 20px;line-height: 30px">个人简介：</p>
+                                <textarea class="form-control" name="sign" rows="3">{{ user.sign }}</textarea>
+                            </li>
+                            <div style="height: 15px"></div>
+                            {% csrf_token %}
+                            <li class="button heibtn">
+                                <input type="submit" id="jsEditUserBtn" value="保存">
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
