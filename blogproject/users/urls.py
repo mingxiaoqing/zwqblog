@@ -10,6 +10,6 @@ urlpatterns=[
     url(r'^logout/$',views.LogoutView.as_view(),name='logout'),
     #编辑个人信息
     url(r'^editinfo/$', views.editUserInfo, name='editinfo'),
-    url(r'to_login/',views.to_login,name='to_login'),
+    
 
 ]
